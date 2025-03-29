@@ -1,4 +1,9 @@
 #
+# Project
+#
+build/
+out/
+#
 # VS Code
 #
 .vscode/*
