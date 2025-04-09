@@ -1,0 +1,6 @@
+#ifndef DATA_HEADERS
+#define DATA_HEADERS
+
+#define MEMORY_BOOT_DRIVE_ADDRESS 0x0500
+
+#endif

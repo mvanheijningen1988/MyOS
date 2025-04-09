@@ -1,4 +1,6 @@
+#ifndef BOOT_HEADERS
+#define BOOT_HEADERS
+
 #define SECTOR_SIZE 512
-#define BOOTLOADER_SIGNATURE 0xaa55
-#define KERNEL_SIZE 0x2000
-#define KERNEL_SECTOR_COUNT 0x10 /* 0x2000 / 512 = 0x10 */
+
+#endif

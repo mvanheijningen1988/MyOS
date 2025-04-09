@@ -28,11 +28,19 @@ boot.o: src/boot/i386/boot.S
 	$(AS) $(ASFLAGS) -o build/$@ build/boot.s
 
 boot.bin: boot.o
-	$(LD) $(LDFLAGS) -Ttext 0x7c00 -Tdata 0x7e00 --oformat binary -o out/$@ build/$<
+	$(LD) $(LDFLAGS) -Ttext 0x7c00 --oformat binary -o out/$@ build/$<
 
-hd.img: boot.bin
+stage1-5.o: src/boot/i386/stage1-5.S
+	$(CPP) $(CPPFLAGS) $< -o build/stage1-5.s
+	$(AS) $(ASFLAGS) -o build/$@ build/stage1-5.s
+
+stage1-5.bin: stage1-5.o
+	$(LD) $(LDFLAGS) --oformat binary -o out/$@ build/$<
+
+hd.img: boot.bin stage1-5.bin
 	dd if=/dev/zero of=out/$@ bs=512 count=2880
 	dd if=out/$< of=out/$@ conv=notrunc
+	dd if=out/$(word 2, $^) of=out/$@ conv=notrunc seek=1
 
 run: hd.img
 	qemu-system-i386 -drive format=raw,file=out/$<,if=ide --monitor stdio
