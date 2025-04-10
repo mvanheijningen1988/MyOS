@@ -1,6 +1,8 @@
 #ifndef OFFSET_HEADERS
 #define OFFSET_HEADERS
 
+#include "data.h"
+
 // Real mode address space (the first MiB)
 
 // Interrupt Vector Table (IVT)

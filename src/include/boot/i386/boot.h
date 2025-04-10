@@ -3,6 +3,6 @@
 
 #include "boot/boot.h"
 
-#define BOOTLOADER_SIGNATURE    0xaa55
+#define BOOT_BOOTLOADER_SIGNATURE   0xaa55
 
 #endif
