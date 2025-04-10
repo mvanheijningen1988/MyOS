@@ -5,13 +5,13 @@
  * Created by Michael van Heijningen on 2025/03/29.
  */
 
-#include "boot/i386/memory.h"
-#include "boot/i386/boot.h"
-
 .file "boot.S"                          # This is the source file name
 .text                                   # This is the text section where the code resides
 .code16                                 # This is a 16-bit code segment
 .globl start, _start                    # Entry point for the bootloader
+
+.include "src/boot/i386/memory.S"
+.include "src/boot/i386/constants.S"
 
 start:
 _start:
@@ -21,7 +21,7 @@ _start:
     mov %bx, %ss                        # Set stack segment to 0
     mov %bx, %ds                        # Set data segment to 0
     mov %dl, MEMORY_BOOT_DRIVE_ADDRESS  # set boot drive number to memory location 0x0500
-    mov $BOOT_SECTOR_START, %sp         # Set up stack (grows downward from load address)
+    mov $MEMORY_BOOT_SECTOR_OFFSET, %sp # Set up stack (grows downward from load address)
     sti                                 # Enable interrupts
 
 .load_next_stage:
@@ -42,7 +42,8 @@ _start:
     cmp $0x01, %al                      # Check if the number of sectors read is 0
     jne .error                          # If so, jump to error
 
-    jmp CONVENTIONAL_MEM2_START         # Jump to the loaded kernel
+    jmp MEMORY_BOOT_STAGE15_ADDRESS     # Jump to the loaded kernel
+
 .error:
     jmp halt                            # Jump to halt if there was an error
 
