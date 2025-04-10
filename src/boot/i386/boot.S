@@ -26,10 +26,10 @@ _start:
 
 .load_next_stage:
     mov $CONVENTIONAL_MEM2_START, %bx   # Set buffer address to load the kernel
-    mov $0x02, %ah                      # BIOS function: read sectors
+    mov next_stage_sector_size, %ah     # BIOS function: read sectors
     mov $0x01, %al                      # Number of sectors to read
     mov $0x00, %ch                      # Cylinder number
-    mov $0x02, %cl                      # Sector number
+    mov next_stage_sector_start, %cl    # Sector number
     mov $0x00, %dh                      # Head number
     mov MEMORY_BOOT_DRIVE_ADDRESS, %dl  # Boot drive number
 
@@ -48,6 +48,9 @@ halt:
     hlt                                 # Halt the CPU
     jmp halt                            # Infinite loop to prevent further execution
 
-.fill 510-(.-_start), 1, 0              # Add zeroes to make it total 512 bytes
+.fill 508-(.-_start), 1, 0              # Add zeroes to make it total 512 bytes
+
+next_stage_sector_start: .byte 0x02
+next_stage_sector_size: .byte 0x01
 
 .word BOOTLOADER_SIGNATURE              # Magic bytes that tell BIOS that this is bootable
