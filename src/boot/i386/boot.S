@@ -10,8 +10,8 @@
 .code16                                 # This is a 16-bit code segment
 .globl start, _start                    # Entry point for the bootloader
 
-.include "src/boot/i386/memory.S"
-.include "src/boot/i386/constants.S"
+.include "src/boot/i386/includes/memory.S"
+.include "src/boot/i386/includes/constants.S"
 
 start:
 _start:

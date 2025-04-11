@@ -9,8 +9,8 @@
 .code16
 .globl start, _start
 
-.include "src/boot/i386/memory.S"
-.include "src/boot/i386/constants.S"
+.include "src/boot/i386/includes/memory.S"
+.include "src/boot/i386/includes/constants.S"
 
 start:
 _start:
@@ -19,9 +19,11 @@ call load_kernel
 
 jmp halt
 
-.include "src/boot/i386/ext.S"
-.include "src/boot/i386/print.S"
+.include "src/boot/i386/includes/ext.S"
+.include "src/boot/i386/includes/print.S"
 
 halt:
     hlt                                 # Halt the CPU
     jmp halt                            # Infinite loop to prevent further execution
+
+test_message: .asciz "T"
