@@ -108,14 +108,27 @@ This document outlines the structure and layout of the EXT filesystem, providing
 
 ---
 
-## Summary of Key Offsets
-| Component                  | Offset (Bytes) | Description                              |
-|----------------------------|----------------|------------------------------------------|
-| Boot Sector (Superblock)   | 0x400          | Filesystem metadata                     |
-| Block Group Descriptor     | 0x800          | Describes block groups                  |
-| Block Bitmap               | Variable       | Tracks used/free blocks                 |
-| Inode Bitmap               | Variable       | Tracks used/free inodes                 |
-| Inode Table                | Variable       | Metadata for files and directories      |
-| Data Blocks                | Variable       | Actual file and directory data          |
+## Full Superblock Components
+| **Field Name**               | **Offset (Bytes)** | **Size (Bytes)** | **Description**                              |
+|------------------------------|--------------------|------------------|----------------------------------------------|
+| `s_inodes_count`             | 0x00              | 4                | Total number of inodes                      |
+| `s_blocks_count`             | 0x04              | 4                | Total number of blocks                      |
+| `s_r_blocks_count`           | 0x08              | 4                | Reserved blocks count                       |
+| `s_free_blocks_count`        | 0x0C              | 4                | Free blocks count                           |
+| `s_free_inodes_count`        | 0x10              | 4                | Free inodes count                           |
+| `s_first_data_block`         | 0x14              | 4                | First data block                            |
+| `s_log_block_size`           | 0x18              | 4                | Block size (2^(10 + value))                 |
+| `s_blocks_per_group`         | 0x20              | 4                | Number of blocks per block group            |
+| `s_inodes_per_group`         | 0x28              | 4                | Number of inodes per block group            |
+| `s_magic`                    | 0x38              | 2                | Magic number (0xEF53 for EXT)               |
+| `s_state`                    | 0x3A              | 2                | Filesystem state                            |
+| `s_errors`                   | 0x3C              | 2                | Behavior when errors are detected           |
+| `s_minor_rev_level`          | 0x3E              | 2                | Minor revision level                        |
+| `s_lastcheck`                | 0x40              | 4                | Time of last check                          |
+| `s_checkinterval`            | 0x44              | 4                | Maximum time between checks                 |
+| `s_creator_os`               | 0x48              | 4                | OS that created the filesystem              |
+| `s_rev_level`                | 0x4C              | 4                | Revision level                              |
+| `s_def_resuid`               | 0x50              | 2                | Default UID for reserved blocks             |
+| `s_def_resgid`               | 0x52              | 2                | Default GID for reserved blocks             |
 
-This mapping provides a comprehensive reference for understanding the EXT filesystem layout.
+This table provides a complete reference for all fields in the EXT superblock.

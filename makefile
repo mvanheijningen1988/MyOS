@@ -1,19 +1,19 @@
 # x86_64-elf-as --32 -o boot.o src/boot/i386/boot.S
 # x86_64-elf-ld -m elf_i386 -Ttext 0x7c00 --oformat binary -o boot.bin boot.o
 
-AS = x86_64-elf-as
-#AS = as
+#AS = x86_64-elf-as
+AS = as
 ASFLAGS = --32 -I ./include
-LD = x86_64-elf-ld
-#LD = ld
+#LD = x86_64-elf-ld
+LD = ld
 LDFLAGS = -m elf_i386
-CC = x86_64-elf-gcc
-#CC = gcc
+#CC = x86_64-elf-gcc
+CC = gcc
 CFLAGS = -m32 -ffreestanding -c -g -I ./include
-CPP = x86_64-elf-cpp
-#CPP = cpp
+#CPP = x86_64-elf-cpp
+CPP = cpp
 CPPFLAGS = -I ./src/include
-qemu = qemu-system-i386
+qemu = C:\Program Files\qemu\qemu-system-i386
 
 # $@ = target
 # $< = first dependency
@@ -46,10 +46,10 @@ hd.img: boot.bin stage1-5.bin
 	dd if=out/$(word 2, $^) of=out/$@ conv=notrunc seek=1
 
 run: hd.img
-	qemu-system-i386 -drive format=raw,file=out/$<,if=ide --monitor stdio
+	$(qemu) -drive format=raw,file=out/$<,if=ide --monitor stdio
 
 debug: boot.bin
-	qemu-system-i386 -drive format=raw,file=out/$<,if=ide -s -S
+	$(qemu) -drive format=raw,file=out/$<,if=ide -s -S
 
 clean:
 	rm -rdf build out
