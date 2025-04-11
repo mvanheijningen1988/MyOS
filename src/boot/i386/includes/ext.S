@@ -72,13 +72,6 @@ determine_block_size:
     movw %es:(%di), %cx                             # Lees 2 bytes vanaf ES:DI in AX
     mov $0x400, ext_block_size                      # Set %bx to 1024
     shl %cl, ext_block_size                         # Shift left by %cl bits to get the block size
-    mov ext_block_size, %bx
-    call print_hex_string                           # Call the print_hex function
-    #and $0x0F, %ax                                 # Masker de onderste 4 bits
-    #shl $0x0B, %ax                                 # Shift left by 11 bits to get the block size
-    #mov %ax, %bx                                   # Move the block size to %bx
-    mov $test_message, %si        # Load the message to print
-    call print_string                   # Call the print_string function
     ret
 
 disk_error_message: .asciz "Disk error: "
